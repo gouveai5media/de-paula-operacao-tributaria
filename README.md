@@ -1,0 +1,1 @@
+# de-paula-operacao-tributaria.

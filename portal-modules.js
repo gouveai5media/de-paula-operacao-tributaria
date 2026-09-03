@@ -196,14 +196,33 @@ function reportsForPeriod(){
   const period=m$('weeklyPeriodFilter')?.value||'all';
   let list=[...weeklyReports];
   if(exec)list=list.filter(r=>r.executive_id===exec);
-  if(period!=='all'){
+  if(period==='all')return list;
+
+  const today=new Date();
+  const iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  let start=null,end=null;
+
+  if(period==='this_week'){
+    start=new Date(currentMonday()+'T12:00:00');
+    end=new Date(start);end.setDate(end.getDate()+6);
+  }else if(period==='last_week'){
+    end=new Date(currentMonday()+'T12:00:00');end.setDate(end.getDate()-1);
+    start=new Date(end);start.setDate(start.getDate()-6);
+  }else if(period==='this_month'){
+    start=new Date(today.getFullYear(),today.getMonth(),1,12);
+    end=new Date(today.getFullYear(),today.getMonth()+1,0,12);
+  }else if(period==='last_month'){
+    start=new Date(today.getFullYear(),today.getMonth()-1,1,12);
+    end=new Date(today.getFullYear(),today.getMonth(),0,12);
+  }else{
     const weeks=Number(period);
-    const start=new Date(currentMonday()+'T12:00:00');
+    start=new Date(currentMonday()+'T12:00:00');
     start.setDate(start.getDate()-((weeks-1)*7));
-    const cutoff=[start.getFullYear(),String(start.getMonth()+1).padStart(2,'0'),String(start.getDate()).padStart(2,'0')].join('-');
-    list=list.filter(r=>r.week_start>=cutoff);
+    end=new Date();
   }
-  return list;
+
+  const from=iso(start),to=iso(end);
+  return list.filter(r=>r.week_start>=from&&r.week_start<=to);
 }
 function totalOf(list,key){return list.reduce((sum,r)=>sum+mnum(r[key]),0)}
 function renderExecutiveWeekly(){

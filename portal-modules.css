@@ -27,11 +27,11 @@
 .mini-stat small{color:var(--muted);font-size:10px}
 .mini-stat strong{font-size:30px;color:var(--gold2);margin-top:7px}
 .weekly-form{display:grid;gap:15px}
-.metric-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.metric-inputs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .weekly-submit{display:flex;justify-content:space-between;align-items:center;gap:15px}
 .weekly-history-panel{margin-top:18px}
 .weekly-history{display:grid;gap:10px}
-.week-report-row{display:grid;grid-template-columns:150px repeat(3,110px) minmax(180px,1fr);gap:12px;align-items:center;padding:15px 4px;border-top:1px solid var(--line)}
+.week-report-row{display:grid;grid-template-columns:150px repeat(4,100px) minmax(180px,1fr);gap:12px;align-items:center;padding:15px 4px;border-top:1px solid var(--line)}
 .week-report-row:first-child{border-top:0}
 .week-report-row strong,.week-report-row small{display:block}
 .week-report-row small{color:var(--muted);font-size:9px;margin-top:4px}
@@ -40,13 +40,13 @@
 .company-tag{padding:5px 7px;border:1px solid var(--line);border-radius:6px;font-size:9px;color:#aab8b4;background:rgba(255,255,255,.015)}
 .report-filters{display:grid;grid-template-columns:1fr 220px 220px;gap:18px;align-items:end;margin-bottom:16px}
 .report-filters h2{margin-bottom:0}
-.weekly-team-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.weekly-team-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:18px}
 .weekly-balance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .balance-card{padding:18px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.015)}
 .balance-card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}
 .balance-card strong,.balance-card small{display:block}
 .balance-card small{font-size:9px;color:var(--muted);margin-top:4px}
-.balance-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.balance-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .balance-metrics div{padding:10px;border:1px solid var(--line);border-radius:8px}
 .balance-metrics span,.balance-metrics b{display:block}
 .balance-metrics span{font-size:8px;color:var(--muted);text-transform:uppercase;line-height:1.3}

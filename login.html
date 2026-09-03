@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acesso ao Sistema | De Paula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="glow"></div>
+  <main class="login-shell">
+    <a class="back" href="index.html">← Voltar ao site</a>
+
+    <section class="login-card">
+      <div class="brand">
+        <span class="brand-mark">DP</span>
+        <div><strong>DE PAULA</strong><small>PORTAL COMERCIAL INTERNO</small></div>
+      </div>
+
+      <span class="eyebrow">ACESSO RESTRITO</span>
+      <h1>Bem-vindo ao sistema.</h1>
+      <p class="intro">Entre com seu e-mail corporativo e senha para acessar a base de conhecimento e os recursos internos.</p>
+
+      <form id="loginForm">
+        <label>
+          E-mail
+          <input id="email" type="email" autocomplete="username" placeholder="seuemail@empresa.com.br" required>
+        </label>
+        <label>
+          Senha
+          <input id="password" type="password" autocomplete="current-password" placeholder="••••••••••" required>
+        </label>
+        <button id="submitBtn" type="submit">Entrar no sistema</button>
+        <p id="message" class="message" aria-live="polite"></p>
+      </form>
+
+      <div class="login-foot">
+        <span>Ambiente interno</span>
+        <span>Acesso autorizado</span>
+      </div>
+    </section>
+  </main>
+  <script src="login.js"></script>
+</body>
+</html>

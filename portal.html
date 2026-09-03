@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="portal.css?v=3">
+<link rel="stylesheet" href="portal-modules.css?v=1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -23,6 +24,8 @@
         <button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
         <button class="nav-item" data-view="knowledge"><span>◇</span>Base de conhecimento</button>
         <button class="nav-item" data-view="tickets"><span>◌</span>Chamados <b id="navTicketBadge" class="nav-badge">0</b></button>
+        <button class="nav-item" data-view="systems"><span>↗</span>Acessos aos sistemas</button>
+        <button class="nav-item" data-view="weekly"><span>▥</span>Relatório semanal</button>
         <button class="nav-item admin-only" data-view="executives"><span>◎</span>Executivos</button>
         <button class="nav-item admin-only" data-view="manage"><span>＋</span>Gerenciar conteúdos</button>
       </nav>
@@ -70,6 +73,8 @@
             <button class="quick-card" data-category-link="document"><span>▤</span><strong>Documentos</strong><small>Materiais e anexos</small></button>
             <button class="quick-card" data-category-link="contract"><span>▣</span><strong>Contratos</strong><small>Modelos atualizados</small></button>
             <button class="quick-card" data-category-link="objection"><span>?</span><strong>Objeções</strong><small>Respostas prontas</small></button>
+            <button class="quick-card module-link" data-view-link="systems"><span>↗</span><strong>Acessos</strong><small>CRM e sistemas internos</small></button>
+            <button class="quick-card module-link" data-view-link="weekly"><span>▥</span><strong>Relatório semanal</strong><small>Indicadores e histórico</small></button>
           </div>
         </section>
         <section class="panel">
@@ -111,6 +116,74 @@
         <button class="filter-chip" data-ticket-filter="done">Concluídos</button>
       </div>
       <div id="ticketList" class="ticket-list"></div>
+    </section>
+
+
+    <section class="view" id="view-systems">
+      <div class="page-head split">
+        <div><span class="eyebrow">FERRAMENTAS DO TIME</span><h1>Acessos aos sistemas</h1><p>Links, logins e credenciais dos sistemas utilizados pelo time comercial.</p></div>
+        <button class="primary admin-only" data-open-system-modal>+ Novo acesso</button>
+      </div>
+      <div class="access-security-note"><span>●</span><div><strong>Credenciais protegidas</strong><p>As senhas ficam mascaradas na tela e armazenadas criptografadas no banco.</p></div></div>
+      <div id="systemAccessList" class="system-access-grid"></div>
+    </section>
+
+    <section class="view" id="view-weekly">
+      <div class="page-head">
+        <div><span class="eyebrow">PERFORMANCE COMERCIAL</span><h1>Relatório semanal</h1><p id="weeklyIntro">Registre os principais indicadores da semana e acompanhe sua evolução.</p></div>
+      </div>
+
+      <div class="exec-only" id="executiveWeeklyArea">
+        <div class="weekly-layout">
+          <section class="panel">
+            <div class="panel-head"><div><span class="eyebrow">SEMANA ATUAL</span><h2 id="weekLabel">Relatório da semana</h2></div><span class="status-pill status-new" id="weekStatus">Pendente</span></div>
+            <form id="weeklyReportForm" class="weekly-form">
+              <input type="hidden" id="weeklyReportId">
+              <label>Semana de referência<input id="weekStart" type="date" required></label>
+              <div class="metric-inputs">
+                <label>Reuniões agendadas<input id="meetingsScheduled" type="number" min="0" value="0" required></label>
+                <label>Reuniões realizadas<input id="meetingsHeld" type="number" min="0" value="0" required></label>
+                <label>Minutas enviadas<input id="minutesSent" type="number" min="0" value="0" required></label>
+              </div>
+              <label>Empresas / clientes agendados <small>Uma empresa por linha</small><textarea id="scheduledCompanies" placeholder="Empresa ABC&#10;Cliente XYZ"></textarea></label>
+              <label>Observações da semana<textarea id="weeklyNotes" placeholder="Pontos importantes, negociações em andamento, dificuldades ou oportunidades."></textarea></label>
+              <div class="weekly-submit"><span class="muted">Você pode atualizar o mesmo relatório durante a semana.</span><button class="primary" type="submit">Salvar relatório semanal</button></div>
+            </form>
+          </section>
+          <aside class="weekly-side">
+            <article class="mini-stat"><small>Semanas reportadas</small><strong id="myWeeksCount">0</strong></article>
+            <article class="mini-stat"><small>Reuniões agendadas</small><strong id="myScheduledTotal">0</strong></article>
+            <article class="mini-stat"><small>Reuniões realizadas</small><strong id="myHeldTotal">0</strong></article>
+            <article class="mini-stat"><small>Minutas enviadas</small><strong id="myMinutesTotal">0</strong></article>
+          </aside>
+        </div>
+        <section class="panel weekly-history-panel">
+          <div class="panel-head"><div><span class="eyebrow">HISTÓRICO</span><h2>Minha evolução semanal</h2></div></div>
+          <div id="myWeeklyHistory" class="weekly-history"></div>
+        </section>
+      </div>
+
+      <div class="admin-only" id="adminWeeklyArea">
+        <div class="report-filters panel">
+          <div><span class="eyebrow">FILTROS</span><h2>Visão do time</h2></div>
+          <label>Executivo<select id="weeklyExecutiveFilter"><option value="">Todos os executivos</option></select></label>
+          <label>Período<select id="weeklyPeriodFilter"><option value="all">Todo o histórico</option><option value="4">Últimas 4 semanas</option><option value="12">Últimas 12 semanas</option></select></label>
+        </div>
+        <div class="weekly-team-stats">
+          <article class="stat-card"><span class="stat-icon">▥</span><div><small>Semanas reportadas</small><strong id="teamWeeks">0</strong><p>Relatórios no período</p></div></article>
+          <article class="stat-card"><span class="stat-icon">＋</span><div><small>Reuniões agendadas</small><strong id="teamScheduled">0</strong><p>Total do time</p></div></article>
+          <article class="stat-card"><span class="stat-icon">✓</span><div><small>Reuniões realizadas</small><strong id="teamHeld">0</strong><p>Total do time</p></div></article>
+          <article class="stat-card"><span class="stat-icon">▣</span><div><small>Minutas enviadas</small><strong id="teamMinutes">0</strong><p>Total do time</p></div></article>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><span class="eyebrow">BALANÇO INDIVIDUAL</span><h2>Executivos</h2></div></div>
+          <div id="weeklyExecutiveBalance" class="weekly-balance-grid"></div>
+        </section>
+        <section class="panel weekly-history-panel">
+          <div class="panel-head"><div><span class="eyebrow">HISTÓRICO DO TIME</span><h2>Relatórios enviados</h2></div></div>
+          <div id="teamWeeklyHistory" class="weekly-history"></div>
+        </section>
+      </div>
     </section>
 
     <section class="view admin-only" id="view-executives">
@@ -213,7 +286,25 @@
   </div>
 </div>
 
+
+<div class="modal" id="systemAccessModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-system-modal>×</button>
+    <span class="eyebrow">ACESSO A SISTEMA</span><h2 id="systemAccessModalTitle">Novo acesso</h2>
+    <form id="systemAccessForm" class="form-stack">
+      <input type="hidden" id="systemAccessId">
+      <label>Título<input id="systemAccessTitle" required placeholder="Ex.: Acesso ao CRM"></label>
+      <label>Link do sistema<input id="systemAccessUrl" type="url" required placeholder="https://..."></label>
+      <label>Login / usuário <small>opcional</small><input id="systemAccessUsername" placeholder="Usuário ou e-mail"></label>
+      <label>Senha <small id="systemPasswordHint">opcional</small><input id="systemAccessPassword" type="password" placeholder="Senha do sistema"></label>
+      <label>Observação <small>opcional</small><textarea id="systemAccessNote" placeholder="Ex.: usar somente para consulta / acesso compartilhado do time."></textarea></label>
+      <label class="toggle-row"><input id="systemAccessActive" type="checkbox" checked><span>Disponível para os executivos</span></label>
+      <div class="modal-actions"><button type="button" class="secondary" data-close-system-modal>Cancelar</button><button class="primary" type="submit">Salvar acesso</button></div>
+    </form>
+  </div>
+</div>
 <div id="toast" class="toast"></div>
 <script src="portal.js?v=3"></script>
+<script src="portal-modules.js?v=1"></script>
 </body>
 </html>

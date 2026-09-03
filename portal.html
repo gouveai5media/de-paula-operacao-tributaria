@@ -7,76 +7,178 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="portal.css">
+<link rel="stylesheet" href="portal.css?v=3">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<aside class="sidebar">
-  <div class="brand"><span class="mark">DP</span><div><strong>DE PAULA</strong><small>PORTAL COMERCIAL</small></div></div>
-  <nav>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#base">Base de conhecimento</a>
-    <a href="#chamados">Chamados</a>
-    <a class="admin-only" href="#executivos">Executivos</a>
-    <a class="admin-only" href="#conteudos">Gerenciar conteúdos</a>
-  </nav>
-  <button id="logout">Sair</button>
-</aside>
-
-<main class="content">
-  <header class="topbar">
-    <div><span class="eyebrow">AMBIENTE INTERNO</span><h1>Portal Comercial</h1></div>
-    <div class="userbox"><strong id="userName">Usuário</strong><span id="userRole">Carregando...</span></div>
-  </header>
-
-  <section id="dashboard" class="section">
-    <div class="cards">
-      <article><span>Base de conhecimento</span><strong id="knowledgeCount">0</strong><small>materiais disponíveis</small></article>
-      <article><span>Chamados</span><strong id="ticketCount">0</strong><small>solicitações</small></article>
-      <article class="admin-only"><span>Executivos</span><strong id="execCount">0</strong><small>usuários ativos</small></article>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <span class="brand-mark">DP</span>
+        <div><strong>DE PAULA</strong><small>PORTAL COMERCIAL</small></div>
+      </div>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav id="mainNav">
+        <button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+        <button class="nav-item" data-view="knowledge"><span>◇</span>Base de conhecimento</button>
+        <button class="nav-item" data-view="tickets"><span>◌</span>Chamados <b id="navTicketBadge" class="nav-badge">0</b></button>
+        <button class="nav-item admin-only" data-view="executives"><span>◎</span>Executivos</button>
+        <button class="nav-item admin-only" data-view="manage"><span>＋</span>Gerenciar conteúdos</button>
+      </nav>
     </div>
-  </section>
-
-  <section id="base" class="section">
-    <div class="section-title"><div><span class="eyebrow">CONSULTA</span><h2>Base de conhecimento</h2></div><input id="searchKnowledge" class="search" placeholder="Buscar material..."></div>
-    <div class="tabs" id="categoryTabs">
-      <button data-category="">Todos</button>
-      <button data-category="email">E-mails</button>
-      <button data-category="document">Documentos</button>
-      <button data-category="capability">Atestados</button>
-      <button data-category="contract">Contratos</button>
-      <button data-category="commission">Comissão</button>
-      <button data-category="objection">Objeções</button>
-      <button data-category="video">Vídeos</button>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" id="userInitial">A</div>
+        <div><strong id="sideUserName">Usuário</strong><small id="sideUserRole">Carregando...</small></div>
+      </div>
+      <button id="logout" class="logout-btn">Sair do sistema</button>
     </div>
-    <div id="knowledgeList" class="list"></div>
-  </section>
+  </aside>
 
-  <section id="chamados" class="section">
-    <span class="eyebrow">SUPORTE INTERNO</span><h2>Chamados</h2>
-    <form id="ticketForm" class="panel form-grid">
-      <input id="ticketSubject" placeholder="Assunto do chamado" required>
-      <textarea id="ticketDescription" placeholder="Descreva a solicitação" required></textarea>
-      <button class="primary" type="submit">Abrir chamado</button>
+  <main class="main">
+    <header class="topbar">
+      <button id="mobileMenu" class="mobile-menu">☰</button>
+      <div class="breadcrumb"><span>PORTAL COMERCIAL</span><b id="viewTitle">Dashboard</b></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="refreshBtn" title="Atualizar">↻</button>
+        <div class="user-chip"><strong id="userName">Usuário</strong><span id="userRole">Carregando...</span></div>
+      </div>
+    </header>
+
+    <section class="view active" id="view-dashboard">
+      <div class="hero-row">
+        <div>
+          <span class="eyebrow">VISÃO GERAL</span>
+          <h1 id="welcomeTitle">Bom dia.</h1>
+          <p id="welcomeText">Tudo que o time comercial precisa, organizado em um só lugar.</p>
+        </div>
+        <button class="primary admin-only" data-open-modal="materialModal">+ Novo material</button>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card"><span class="stat-icon">◇</span><div><small>Materiais disponíveis</small><strong id="knowledgeCount">0</strong><p>Base comercial atualizada</p></div></article>
+        <article class="stat-card"><span class="stat-icon">◌</span><div><small>Chamados em aberto</small><strong id="ticketCount">0</strong><p>Demandas aguardando conclusão</p></div></article>
+        <article class="stat-card admin-only"><span class="stat-icon">◎</span><div><small>Executivos ativos</small><strong id="execCount">0</strong><p>Acessos liberados no portal</p></div></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-head"><div><span class="eyebrow">ACESSO RÁPIDO</span><h2>Base de conhecimento</h2></div><button class="text-btn" data-view-link="knowledge">Ver tudo →</button></div>
+          <div class="quick-grid">
+            <button class="quick-card" data-category-link="email"><span>✉</span><strong>E-mails</strong><small>Modelos comerciais</small></button>
+            <button class="quick-card" data-category-link="document"><span>▤</span><strong>Documentos</strong><small>Materiais e anexos</small></button>
+            <button class="quick-card" data-category-link="contract"><span>▣</span><strong>Contratos</strong><small>Modelos atualizados</small></button>
+            <button class="quick-card" data-category-link="objection"><span>?</span><strong>Objeções</strong><small>Respostas prontas</small></button>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><span class="eyebrow">ATIVIDADE RECENTE</span><h2>Últimos chamados</h2></div><button class="text-btn" data-view-link="tickets">Ver chamados →</button></div>
+          <div id="recentTickets" class="compact-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="view-knowledge">
+      <div class="page-head">
+        <div><span class="eyebrow">CENTRAL COMERCIAL</span><h1>Base de conhecimento</h1><p>Encontre rapidamente e-mails, arquivos, contratos, comissões e respostas para objeções.</p></div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap"><span>⌕</span><input id="searchKnowledge" placeholder="Buscar por título, conteúdo ou observação"></div>
+        <div class="category-tabs" id="categoryTabs">
+          <button class="active" data-category="">Todos</button>
+          <button data-category="email">E-mails</button>
+          <button data-category="document">Documentos</button>
+          <button data-category="capability">Atestados</button>
+          <button data-category="contract">Contratos</button>
+          <button data-category="commission">Comissão</button>
+          <button data-category="objection">Objeções</button>
+          <button data-category="video">Vídeos</button>
+        </div>
+      </div>
+      <div id="knowledgeList" class="knowledge-grid"></div>
+    </section>
+
+    <section class="view" id="view-tickets">
+      <div class="page-head split">
+        <div><span class="eyebrow">SUPORTE INTERNO</span><h1>Chamados</h1><p id="ticketSubtitle">Abra uma solicitação e acompanhe o andamento.</p></div>
+        <button class="primary" data-open-modal="ticketModal">+ Abrir chamado</button>
+      </div>
+      <div class="filter-row">
+        <button class="filter-chip active" data-ticket-filter="">Todos</button>
+        <button class="filter-chip" data-ticket-filter="new">Novos</button>
+        <button class="filter-chip" data-ticket-filter="in_progress">Em andamento</button>
+        <button class="filter-chip" data-ticket-filter="done">Concluídos</button>
+      </div>
+      <div id="ticketList" class="ticket-list"></div>
+    </section>
+
+    <section class="view admin-only" id="view-executives">
+      <div class="page-head split">
+        <div><span class="eyebrow">GESTÃO DE ACESSOS</span><h1>Executivos</h1><p>Cadastre, edite, desative ou exclua os acessos da equipe comercial.</p></div>
+        <button class="primary" data-open-modal="executiveModal">+ Novo executivo</button>
+      </div>
+      <div class="panel">
+        <div class="table-toolbar"><div class="search-wrap compact"><span>⌕</span><input id="searchExecutives" placeholder="Buscar executivo"></div><span id="execSummary" class="muted"></span></div>
+        <div id="executiveList" class="table-list"></div>
+      </div>
+    </section>
+
+    <section class="view admin-only" id="view-manage">
+      <div class="page-head split">
+        <div><span class="eyebrow">ADMINISTRAÇÃO DE CONTEÚDO</span><h1>Gerenciar conteúdos</h1><p>Cadastre, edite, publique, substitua arquivos e mantenha a base comercial sempre atualizada.</p></div>
+        <button class="primary" data-open-modal="materialModal">+ Novo material</button>
+      </div>
+      <div class="manage-categories">
+        <button class="manage-card" data-manage-category="email"><span>✉</span><strong>E-mails comerciais</strong><small id="count-email">0 itens</small></button>
+        <button class="manage-card" data-manage-category="document"><span>▤</span><strong>Documentos</strong><small id="count-document">0 itens</small></button>
+        <button class="manage-card" data-manage-category="capability"><span>✓</span><strong>Atestados</strong><small id="count-capability">0 itens</small></button>
+        <button class="manage-card" data-manage-category="contract"><span>▣</span><strong>Contratos</strong><small id="count-contract">0 itens</small></button>
+        <button class="manage-card" data-manage-category="commission"><span>%</span><strong>Comissão</strong><small id="count-commission">0 itens</small></button>
+        <button class="manage-card" data-manage-category="objection"><span>?</span><strong>Objeções</strong><small id="count-objection">0 itens</small></button>
+        <button class="manage-card" data-manage-category="video"><span>▶</span><strong>Vídeos</strong><small>Em breve</small></button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Materiais cadastrados</h2><p class="muted">Clique em editar para atualizar texto, observação ou substituir o arquivo.</p></div></div>
+        <div id="manageList" class="table-list"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="ticketModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal>×</button>
+    <span class="eyebrow">NOVO CHAMADO</span><h2>Abrir solicitação</h2>
+    <form id="ticketForm" class="form-stack">
+      <label>Assunto<input id="ticketSubject" required placeholder="Ex.: Preciso do contrato atualizado"></label>
+      <label>Descrição<textarea id="ticketDescription" required placeholder="Explique a demanda com o máximo de contexto possível."></textarea></label>
+      <div class="modal-actions"><button type="button" class="secondary" data-close-modal>Cancelar</button><button class="primary" type="submit">Abrir chamado</button></div>
     </form>
-    <div id="ticketList" class="list"></div>
-  </section>
+  </div>
+</div>
 
-  <section id="executivos" class="section admin-only">
-    <span class="eyebrow">ADMINISTRAÇÃO</span><h2>Executivos</h2>
-    <form id="executiveForm" class="panel form-grid cols-3">
-      <input id="execName" placeholder="Nome do executivo" required>
-      <input id="execEmail" type="email" placeholder="E-mail corporativo" required>
-      <input id="execPassword" type="password" placeholder="Senha inicial" minlength="8" required>
-      <button class="primary" type="submit">Cadastrar executivo</button>
+<div class="modal" id="executiveModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal>×</button>
+    <span class="eyebrow">GESTÃO DE ACESSO</span><h2 id="executiveModalTitle">Cadastrar executivo</h2>
+    <form id="executiveForm" class="form-stack">
+      <input type="hidden" id="execId">
+      <label>Nome completo<input id="execName" required placeholder="Nome do executivo"></label>
+      <label>E-mail corporativo<input id="execEmail" type="email" required placeholder="nome@empresa.com.br"></label>
+      <label>Senha <small id="passwordHint">mínimo 8 caracteres</small><input id="execPassword" type="password" minlength="8" placeholder="Senha inicial"></label>
+      <div class="modal-actions"><button type="button" class="secondary" data-close-modal>Cancelar</button><button class="primary" type="submit">Salvar executivo</button></div>
     </form>
-    <div id="executiveList" class="list"></div>
-  </section>
+  </div>
+</div>
 
-  <section id="conteudos" class="section admin-only">
-    <span class="eyebrow">ADMINISTRAÇÃO</span><h2>Gerenciar base de conhecimento</h2>
-    <form id="knowledgeForm" class="panel form-grid">
-      <select id="knowledgeCategory" required>
+<div class="modal" id="materialModal" aria-hidden="true">
+  <div class="modal-card wide">
+    <button class="modal-close" data-close-modal>×</button>
+    <span class="eyebrow">BASE DE CONHECIMENTO</span><h2 id="materialModalTitle">Novo material</h2>
+    <form id="knowledgeForm" class="form-grid">
+      <input type="hidden" id="knowledgeId">
+      <label>Categoria<select id="knowledgeCategory" required>
         <option value="email">E-mail comercial</option>
         <option value="document">Documento</option>
         <option value="capability">Atestado de capacidade</option>
@@ -84,18 +186,34 @@
         <option value="commission">Tabela de comissão</option>
         <option value="objection">Principal objeção</option>
         <option value="video">Vídeo sobre operação</option>
-      </select>
-      <input id="knowledgeTitle" placeholder="Título" required>
-      <textarea id="knowledgeBody" placeholder="Texto / resposta / conteúdo"></textarea>
-      <textarea id="knowledgeNote" placeholder="Nota ou observação"></textarea>
-      <input id="knowledgeFile" type="file">
-      <label class="check"><input id="knowledgePublished" type="checkbox" checked> Publicado para executivos</label>
-      <button class="primary" type="submit">Salvar material</button>
+      </select></label>
+      <label>Título<input id="knowledgeTitle" required placeholder="Título do material"></label>
+      <label class="full">Texto / resposta<textarea id="knowledgeBody" placeholder="Conteúdo que o executivo verá no portal"></textarea></label>
+      <label class="full">Observação do Admin<textarea id="knowledgeNote" placeholder="Instrução ou nota complementar"></textarea></label>
+      <label class="full upload-box">Arquivo
+        <input id="knowledgeFile" type="file">
+        <span id="currentFileLabel">PDF, DOCX, XLSX ou outro arquivo comercial</span>
+      </label>
+      <label class="toggle-row full"><input id="knowledgePublished" type="checkbox" checked><span>Disponível para os executivos</span></label>
+      <div class="modal-actions full"><button type="button" class="secondary" data-close-modal>Cancelar</button><button class="primary" type="submit">Salvar material</button></div>
     </form>
-  </section>
+  </div>
+</div>
 
-  <div id="toast" class="toast"></div>
-</main>
-<script src="portal.js"></script>
+<div class="modal" id="ticketAdminModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal>×</button>
+    <span class="eyebrow">ATUALIZAR CHAMADO</span><h2 id="adminTicketTitle">Chamado</h2>
+    <form id="ticketAdminForm" class="form-stack">
+      <input type="hidden" id="adminTicketId">
+      <label>Status<select id="adminTicketStatus"><option value="new">Novo</option><option value="in_progress">Em andamento</option><option value="done">Concluído</option></select></label>
+      <label>Observação para o executivo<textarea id="adminTicketNote" placeholder="Ex.: Documento enviado por e-mail em 03/09."></textarea></label>
+      <div class="modal-actions"><button type="button" class="secondary" data-close-modal>Cancelar</button><button class="primary" type="submit">Salvar atualização</button></div>
+    </form>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="portal.js?v=3"></script>
 </body>
 </html>

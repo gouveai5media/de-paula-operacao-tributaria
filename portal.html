@@ -14,54 +14,88 @@
 <aside class="sidebar">
   <div class="brand"><span class="mark">DP</span><div><strong>DE PAULA</strong><small>PORTAL COMERCIAL</small></div></div>
   <nav>
-    <a class="active" href="#dashboard">Dashboard</a>
-    <a href="#emails">E-mails comerciais</a>
-    <a href="#documentos">Documentos</a>
-    <a href="#atestados">Atestados de capacidade</a>
-    <a href="#contratos">Modelos de contratos</a>
-    <a href="#comissao">Tabela de comissão</a>
-    <a href="#objecoes">Principais objeções</a>
-    <a href="#videos">Vídeos sobre a operação</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#base">Base de conhecimento</a>
     <a href="#chamados">Chamados</a>
-    <a id="adminUsersLink" href="#executivos">Executivos</a>
+    <a class="admin-only" href="#executivos">Executivos</a>
+    <a class="admin-only" href="#conteudos">Gerenciar conteúdos</a>
   </nav>
   <button id="logout">Sair</button>
 </aside>
 
 <main class="content">
   <header class="topbar">
-    <div><span class="eyebrow">AMBIENTE INTERNO</span><h1 id="welcome">Portal Comercial</h1></div>
+    <div><span class="eyebrow">AMBIENTE INTERNO</span><h1>Portal Comercial</h1></div>
     <div class="userbox"><strong id="userName">Usuário</strong><span id="userRole">Carregando...</span></div>
   </header>
 
   <section id="dashboard" class="section">
     <div class="cards">
-      <article><span>Base de conhecimento</span><strong id="knowledgeCount">—</strong><small>materiais disponíveis</small></article>
-      <article><span>Chamados</span><strong id="ticketCount">—</strong><small>solicitações registradas</small></article>
-      <article id="adminCard"><span>Executivos</span><strong id="execCount">—</strong><small>usuários ativos</small></article>
+      <article><span>Base de conhecimento</span><strong id="knowledgeCount">0</strong><small>materiais disponíveis</small></article>
+      <article><span>Chamados</span><strong id="ticketCount">0</strong><small>solicitações</small></article>
+      <article class="admin-only"><span>Executivos</span><strong id="execCount">0</strong><small>usuários ativos</small></article>
     </div>
   </section>
 
-  <section class="section"><h2>Base de conhecimento</h2><p>Central de informações comerciais da operação De Paula.</p>
-    <div class="grid">
-      <article id="emails"><h3>E-mails comerciais</h3><p>Pós-reunião, envio à contabilidade, follow-ups e demais modelos.</p></article>
-      <article id="documentos"><h3>Documentos</h3><p>Materiais anexados pelo Admin com notas e orientações.</p></article>
-      <article id="atestados"><h3>Atestados de capacidade</h3><p>Arquivos comerciais para apresentação e comprovação.</p></article>
-      <article id="contratos"><h3>Modelos de contratos</h3><p>Versões atualizadas para consulta e download.</p></article>
-      <article id="comissao"><h3>Tabela de comissão</h3><p>Planilhas e versões vigentes disponibilizadas pelo Admin.</p></article>
-      <article id="objecoes"><h3>Principais objeções</h3><p>Objeções recorrentes e respostas comerciais recomendadas.</p></article>
-      <article id="videos"><h3>Vídeos sobre a operação</h3><span class="soon">EM BREVE</span></article>
-      <article id="chamados"><h3>Chamados ao Admin</h3><p>Abra solicitações e acompanhe o andamento.</p></article>
+  <section id="base" class="section">
+    <div class="section-title"><div><span class="eyebrow">CONSULTA</span><h2>Base de conhecimento</h2></div><input id="searchKnowledge" class="search" placeholder="Buscar material..."></div>
+    <div class="tabs" id="categoryTabs">
+      <button data-category="">Todos</button>
+      <button data-category="email">E-mails</button>
+      <button data-category="document">Documentos</button>
+      <button data-category="capability">Atestados</button>
+      <button data-category="contract">Contratos</button>
+      <button data-category="commission">Comissão</button>
+      <button data-category="objection">Objeções</button>
+      <button data-category="video">Vídeos</button>
     </div>
+    <div id="knowledgeList" class="list"></div>
+  </section>
+
+  <section id="chamados" class="section">
+    <span class="eyebrow">SUPORTE INTERNO</span><h2>Chamados</h2>
+    <form id="ticketForm" class="panel form-grid">
+      <input id="ticketSubject" placeholder="Assunto do chamado" required>
+      <textarea id="ticketDescription" placeholder="Descreva a solicitação" required></textarea>
+      <button class="primary" type="submit">Abrir chamado</button>
+    </form>
+    <div id="ticketList" class="list"></div>
   </section>
 
   <section id="executivos" class="section admin-only">
-    <h2>Gestão de executivos</h2>
-    <p>Área exclusiva do Admin para cadastro manual, ativação e exclusão de acessos.</p>
-    <div class="placeholder">Cadastro de executivos será liberado nesta área.</div>
+    <span class="eyebrow">ADMINISTRAÇÃO</span><h2>Executivos</h2>
+    <form id="executiveForm" class="panel form-grid cols-3">
+      <input id="execName" placeholder="Nome do executivo" required>
+      <input id="execEmail" type="email" placeholder="E-mail corporativo" required>
+      <input id="execPassword" type="password" placeholder="Senha inicial" minlength="8" required>
+      <button class="primary" type="submit">Cadastrar executivo</button>
+    </form>
+    <div id="executiveList" class="list"></div>
   </section>
-</main>
 
+  <section id="conteudos" class="section admin-only">
+    <span class="eyebrow">ADMINISTRAÇÃO</span><h2>Gerenciar base de conhecimento</h2>
+    <form id="knowledgeForm" class="panel form-grid">
+      <select id="knowledgeCategory" required>
+        <option value="email">E-mail comercial</option>
+        <option value="document">Documento</option>
+        <option value="capability">Atestado de capacidade</option>
+        <option value="contract">Modelo de contrato</option>
+        <option value="commission">Tabela de comissão</option>
+        <option value="objection">Principal objeção</option>
+        <option value="video">Vídeo sobre operação</option>
+      </select>
+      <input id="knowledgeTitle" placeholder="Título" required>
+      <textarea id="knowledgeBody" placeholder="Texto / resposta / conteúdo"></textarea>
+      <textarea id="knowledgeNote" placeholder="Nota ou observação"></textarea>
+      <input id="knowledgeFile" type="file">
+      <label class="check"><input id="knowledgePublished" type="checkbox" checked> Publicado para executivos</label>
+      <button class="primary" type="submit">Salvar material</button>
+    </form>
+  </section>
+
+  <div id="toast" class="toast"></div>
+</main>
 <script src="portal.js"></script>
 </body>
 </html>

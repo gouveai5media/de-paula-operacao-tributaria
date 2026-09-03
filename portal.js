@@ -242,7 +242,7 @@ async function deleteMaterial(id){
 }
 
 async function loadTickets(){
-  let query=client.from('tickets').select('*, profiles:executive_id(name,email)').order('created_at',{ascending:false});
+  let query=client.from('tickets').select('*, profiles:profiles!tickets_executive_id_fkey(name,email)').order('created_at',{ascending:false});
   const {data,error}=await query;
   if(error){console.error(error);toast('Não foi possível carregar os chamados.','error');return}
   tickets=data||[];
@@ -427,7 +427,7 @@ function bindUI(){
   });
   $$('[data-close-modal]').forEach(b=>b.onclick=()=>closeModal(b));
   $$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m)}));
-  $('mobileMenu').onclick=()=>$('.sidebar').classList.toggle('open');
+  $('mobileMenu').onclick=()=>document.querySelector('.sidebar').classList.toggle('open');
   $('refreshBtn').onclick=async()=>{toast('Atualizando dados...');await loadAll();toast('Portal atualizado.')};
   $('logout').onclick=async()=>{await client.auth.signOut();location.href='login.html'};
   $('searchKnowledge').addEventListener('input',renderKnowledge);

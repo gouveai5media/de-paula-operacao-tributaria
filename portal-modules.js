@@ -231,6 +231,7 @@ function renderExecutiveWeekly(){
   m$('myScheduledTotal').textContent=totalOf(mine,'meetings_scheduled');
   m$('myHeldTotal').textContent=totalOf(mine,'meetings_held');
   m$('myMinutesTotal').textContent=totalOf(mine,'minutes_sent');
+  m$('myContractsTotal').textContent=totalOf(mine,'contracts_closed');
   m$('myWeeklyHistory').innerHTML=mine.length?mine.map(reportHistoryRow).join(''):mEmpty('Seu histórico começa aqui','Preencha o primeiro relatório semanal.');
   setWeekForm(m$('weekStart')?.value||currentMonday());
 }
@@ -244,6 +245,7 @@ function setWeekForm(date){
   m$('meetingsScheduled').value=report?.meetings_scheduled??0;
   m$('meetingsHeld').value=report?.meetings_held??0;
   m$('minutesSent').value=report?.minutes_sent??0;
+  m$('contractsClosed').value=report?.contracts_closed??0;
   m$('scheduledCompanies').value=(report?.scheduled_companies||[]).join('\n');
   m$('weeklyNotes').value=report?.notes||'';
   m$('weekStatus').textContent=report?'Salvo':'Pendente';
@@ -265,6 +267,7 @@ async function saveWeeklyReport(e){
     meetings_scheduled:mnum(m$('meetingsScheduled').value),
     meetings_held:mnum(m$('meetingsHeld').value),
     minutes_sent:mnum(m$('minutesSent').value),
+    contracts_closed:mnum(m$('contractsClosed').value),
     scheduled_companies:companies,
     notes:m$('weeklyNotes').value.trim()||null,
     updated_at:new Date().toISOString()
@@ -285,6 +288,7 @@ function renderAdminWeekly(){
   m$('teamScheduled').textContent=totalOf(list,'meetings_scheduled');
   m$('teamHeld').textContent=totalOf(list,'meetings_held');
   m$('teamMinutes').textContent=totalOf(list,'minutes_sent');
+  m$('teamContracts').textContent=totalOf(list,'contracts_closed');
   renderExecutiveBalances(list);
   m$('teamWeeklyHistory').innerHTML=list.length?list.map(reportHistoryRow).join(''):mEmpty('Nenhum relatório no período','Altere os filtros ou aguarde o envio dos executivos.');
 }

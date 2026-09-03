@@ -44,7 +44,7 @@ function closeModal(modal){
 function setView(view){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===`view-${view}`));
   $$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={dashboard:'Dashboard',knowledge:'Base de conhecimento',tickets:'Chamados',systems:'Acessos aos sistemas',weekly:'Relatório semanal',executives:'Executivos',manage:'Gerenciar conteúdos'};
+  const titles={dashboard:'Dashboard',knowledge:'Base de conhecimento',tickets:'Chamados',systems:'Acessos aos sistemas',weekly:'Relatório semanal',quiz:'Quiz de conhecimento',executives:'Executivos',manage:'Gerenciar conteúdos'};
   $('viewTitle').textContent=titles[view]||'Portal';
   if(innerWidth<901)$('.sidebar')?.classList.remove('open');
   history.replaceState(null,'','#'+view);
@@ -457,7 +457,7 @@ async function init(){
   applyIdentity();
   bindUI();
   const hash=location.hash.replace('#','');
-  const allowed=['dashboard','knowledge','tickets','systems','weekly','executives','manage'];
+  const allowed=['dashboard','knowledge','tickets','systems','weekly','quiz','executives','manage'];
   if(allowed.includes(hash)&&(!['executives','manage'].includes(hash)||isAdmin))setView(hash);else setView('dashboard');
   await loadAll();
 }

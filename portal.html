@@ -170,7 +170,15 @@
         <div class="report-filters panel">
           <div><span class="eyebrow">FILTROS</span><h2>Visão do time</h2></div>
           <label>Executivo<select id="weeklyExecutiveFilter"><option value="">Todos os executivos</option></select></label>
-          <label>Período<select id="weeklyPeriodFilter"><option value="all">Todo o histórico</option><option value="4">Últimas 4 semanas</option><option value="12">Últimas 12 semanas</option></select></label>
+          <label>Período<select id="weeklyPeriodFilter">
+            <option value="all">Todo o histórico</option>
+            <option value="this_week">Esta semana</option>
+            <option value="last_week">Semana passada</option>
+            <option value="this_month">Este mês</option>
+            <option value="last_month">Mês passado</option>
+            <option value="4">Últimas 4 semanas</option>
+            <option value="12">Últimas 12 semanas</option>
+          </select></label>
         </div>
         <div class="weekly-team-stats">
           <article class="stat-card"><span class="stat-icon">▥</span><div><small>Semanas reportadas</small><strong id="teamWeeks">0</strong><p>Relatórios no período</p></div></article>

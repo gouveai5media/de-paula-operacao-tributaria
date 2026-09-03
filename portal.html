@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="portal.css?v=4">
-<link rel="stylesheet" href="portal-modules.css?v=2">
+<link rel="stylesheet" href="portal-modules.css?v=3">
 <link rel="stylesheet" href="portal-quiz.css?v=2">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -147,6 +147,7 @@
                 <label>Reuniões agendadas<input id="meetingsScheduled" type="number" min="0" value="0" required></label>
                 <label>Reuniões realizadas<input id="meetingsHeld" type="number" min="0" value="0" required></label>
                 <label>Minutas enviadas<input id="minutesSent" type="number" min="0" value="0" required></label>
+                <label>Contratos fechados<input id="contractsClosed" type="number" min="0" value="0" required></label>
               </div>
               <label>Empresas / clientes agendados <small>Uma empresa por linha</small><textarea id="scheduledCompanies" placeholder="Empresa ABC&#10;Cliente XYZ"></textarea></label>
               <label>Observações da semana<textarea id="weeklyNotes" placeholder="Pontos importantes, negociações em andamento, dificuldades ou oportunidades."></textarea></label>
@@ -158,6 +159,7 @@
             <article class="mini-stat"><small>Reuniões agendadas</small><strong id="myScheduledTotal">0</strong></article>
             <article class="mini-stat"><small>Reuniões realizadas</small><strong id="myHeldTotal">0</strong></article>
             <article class="mini-stat"><small>Minutas enviadas</small><strong id="myMinutesTotal">0</strong></article>
+            <article class="mini-stat"><small>Contratos fechados</small><strong id="myContractsTotal">0</strong></article>
           </aside>
         </div>
         <section class="panel weekly-history-panel">
@@ -185,6 +187,7 @@
           <article class="stat-card"><span class="stat-icon">＋</span><div><small>Reuniões agendadas</small><strong id="teamScheduled">0</strong><p>Total do time</p></div></article>
           <article class="stat-card"><span class="stat-icon">✓</span><div><small>Reuniões realizadas</small><strong id="teamHeld">0</strong><p>Total do time</p></div></article>
           <article class="stat-card"><span class="stat-icon">▣</span><div><small>Minutas enviadas</small><strong id="teamMinutes">0</strong><p>Total do time</p></div></article>
+          <article class="stat-card"><span class="stat-icon">★</span><div><small>Contratos fechados</small><strong id="teamContracts">0</strong><p>Total do time</p></div></article>
         </div>
         <section class="panel">
           <div class="panel-head"><div><span class="eyebrow">BALANÇO INDIVIDUAL</span><h2>Executivos</h2></div></div>
@@ -379,7 +382,7 @@
 </div>
 <div id="toast" class="toast"></div>
 <script src="portal.js?v=4"></script>
-<script src="portal-modules.js?v=2"></script>
+<script src="portal-modules.js?v=3"></script>
 <script src="portal-quiz.js?v=2"></script>
 </body>
 </html>

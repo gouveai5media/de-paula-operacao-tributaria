@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Portal Comercial | De Paula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand"><span class="mark">DP</span><div><strong>DE PAULA</strong><small>PORTAL COMERCIAL</small></div></div>
+  <nav>
+    <a class="active" href="#dashboard">Dashboard</a>
+    <a href="#emails">E-mails comerciais</a>
+    <a href="#documentos">Documentos</a>
+    <a href="#atestados">Atestados de capacidade</a>
+    <a href="#contratos">Modelos de contratos</a>
+    <a href="#comissao">Tabela de comissão</a>
+    <a href="#objecoes">Principais objeções</a>
+    <a href="#videos">Vídeos sobre a operação</a>
+    <a href="#chamados">Chamados</a>
+    <a id="adminUsersLink" href="#executivos">Executivos</a>
+  </nav>
+  <button id="logout">Sair</button>
+</aside>
+
+<main class="content">
+  <header class="topbar">
+    <div><span class="eyebrow">AMBIENTE INTERNO</span><h1 id="welcome">Portal Comercial</h1></div>
+    <div class="userbox"><strong id="userName">Usuário</strong><span id="userRole">Carregando...</span></div>
+  </header>
+
+  <section id="dashboard" class="section">
+    <div class="cards">
+      <article><span>Base de conhecimento</span><strong id="knowledgeCount">—</strong><small>materiais disponíveis</small></article>
+      <article><span>Chamados</span><strong id="ticketCount">—</strong><small>solicitações registradas</small></article>
+      <article id="adminCard"><span>Executivos</span><strong id="execCount">—</strong><small>usuários ativos</small></article>
+    </div>
+  </section>
+
+  <section class="section"><h2>Base de conhecimento</h2><p>Central de informações comerciais da operação De Paula.</p>
+    <div class="grid">
+      <article id="emails"><h3>E-mails comerciais</h3><p>Pós-reunião, envio à contabilidade, follow-ups e demais modelos.</p></article>
+      <article id="documentos"><h3>Documentos</h3><p>Materiais anexados pelo Admin com notas e orientações.</p></article>
+      <article id="atestados"><h3>Atestados de capacidade</h3><p>Arquivos comerciais para apresentação e comprovação.</p></article>
+      <article id="contratos"><h3>Modelos de contratos</h3><p>Versões atualizadas para consulta e download.</p></article>
+      <article id="comissao"><h3>Tabela de comissão</h3><p>Planilhas e versões vigentes disponibilizadas pelo Admin.</p></article>
+      <article id="objecoes"><h3>Principais objeções</h3><p>Objeções recorrentes e respostas comerciais recomendadas.</p></article>
+      <article id="videos"><h3>Vídeos sobre a operação</h3><span class="soon">EM BREVE</span></article>
+      <article id="chamados"><h3>Chamados ao Admin</h3><p>Abra solicitações e acompanhe o andamento.</p></article>
+    </div>
+  </section>
+
+  <section id="executivos" class="section admin-only">
+    <h2>Gestão de executivos</h2>
+    <p>Área exclusiva do Admin para cadastro manual, ativação e exclusão de acessos.</p>
+    <div class="placeholder">Cadastro de executivos será liberado nesta área.</div>
+  </section>
+</main>
+
+<script src="portal.js"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="portal.css?v=3">
 <link rel="stylesheet" href="portal-modules.css?v=1">
+<link rel="stylesheet" href="portal-quiz.css?v=1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -26,6 +27,7 @@
         <button class="nav-item" data-view="tickets"><span>◌</span>Chamados <b id="navTicketBadge" class="nav-badge">0</b></button>
         <button class="nav-item" data-view="systems"><span>↗</span>Acessos aos sistemas</button>
         <button class="nav-item" data-view="weekly"><span>▥</span>Relatório semanal</button>
+        <button class="nav-item" data-view="quiz"><span>◈</span>Quiz de conhecimento</button>
         <button class="nav-item admin-only" data-view="executives"><span>◎</span>Executivos</button>
         <button class="nav-item admin-only" data-view="manage"><span>＋</span>Gerenciar conteúdos</button>
       </nav>
@@ -75,6 +77,7 @@
             <button class="quick-card" data-category-link="objection"><span>?</span><strong>Objeções</strong><small>Respostas prontas</small></button>
             <button class="quick-card module-link" data-view-link="systems"><span>↗</span><strong>Acessos</strong><small>CRM e sistemas internos</small></button>
             <button class="quick-card module-link" data-view-link="weekly"><span>▥</span><strong>Relatório semanal</strong><small>Indicadores e histórico</small></button>
+            <button class="quick-card module-link" data-view-link="quiz"><span>◈</span><strong>Quiz de conhecimento</strong><small>Evolução a cada 10 dias</small></button>
           </div>
         </section>
         <section class="panel">
@@ -182,6 +185,69 @@
         <section class="panel weekly-history-panel">
           <div class="panel-head"><div><span class="eyebrow">HISTÓRICO DO TIME</span><h2>Relatórios enviados</h2></div></div>
           <div id="teamWeeklyHistory" class="weekly-history"></div>
+        </section>
+      </div>
+    </section>
+
+
+    <section class="view" id="view-quiz">
+      <div class="page-head">
+        <div><span class="eyebrow">DESENVOLVIMENTO DO TIME</span><h1>Quiz de conhecimento</h1><p>Diagnóstico contínuo para acompanhar evolução comercial, domínio da operação e pontos de treinamento.</p></div>
+      </div>
+
+      <div class="exec-only" id="quizExecutiveArea">
+        <div id="quizExecutiveSummary" class="quiz-summary-grid"></div>
+        <div id="quizLockedState" class="panel quiz-state hidden"></div>
+        <form id="quizForm" class="hidden">
+          <section class="panel quiz-scale-panel">
+            <div><span class="eyebrow">COMO RESPONDER</span><h2>Marque seu nível atual</h2></div>
+            <div class="quiz-scale-legend">
+              <span><b>0</b> Não conheço</span><span><b>1</b> Muito pouco</span><span><b>2</b> Básico</span>
+              <span><b>3</b> Consigo executar</span><span><b>4</b> Tenho domínio</span><span><b>5</b> Consigo ensinar</span>
+            </div>
+          </section>
+          <div id="quizQuestions"></div>
+          <section class="panel quiz-open-panel">
+            <span class="eyebrow">AUTOAVALIAÇÃO ABERTA</span><h2>Antes de finalizar</h2>
+            <div class="quiz-open-grid">
+              <label>Qual assunto você mais precisa aprender agora?<textarea id="quizTrainingNeed"></textarea></label>
+              <label>Em qual etapa comercial você sente mais dificuldade?<textarea id="quizCommercialDifficulty"></textarea></label>
+              <label>Qual pergunta ou objeção de cliente você ainda não se sente seguro para responder?<textarea id="quizClientObjection"></textarea></label>
+              <label>Que tipo de treinamento mais ajudaria nos próximos 10 dias?<textarea id="quizTrainingFormat"></textarea></label>
+            </div>
+            <div class="quiz-submit-bar"><div><strong id="quizProgressText">0 de 50 respondidas</strong><span class="muted">O envio é definitivo para este ciclo.</span></div><button class="primary" type="submit">Enviar avaliação</button></div>
+          </section>
+        </form>
+        <section class="panel quiz-history-panel">
+          <div class="panel-head"><div><span class="eyebrow">HISTÓRICO</span><h2>Minha evolução</h2></div></div>
+          <div id="quizMyHistory"></div>
+        </section>
+      </div>
+
+      <div class="admin-only" id="quizAdminArea">
+        <div class="quiz-admin-filters panel">
+          <div><span class="eyebrow">ANÁLISE</span><h2>Diagnóstico do time</h2></div>
+          <label>Executivo<select id="quizExecutiveFilter"><option value="">Todo o time</option></select></label>
+          <label>Ciclo<select id="quizCycleFilter"><option value="latest">Último de cada executivo</option><option value="all">Todos os ciclos</option></select></label>
+        </div>
+        <div class="quiz-admin-stats">
+          <article class="stat-card"><span class="stat-icon">◈</span><div><small>Média geral</small><strong id="quizTeamAverage">0.0</strong><p>Escala de 0 a 5</p></div></article>
+          <article class="stat-card"><span class="stat-icon">◎</span><div><small>Executivos avaliados</small><strong id="quizEvaluatedExecutives">0</strong><p>Com pelo menos um ciclo</p></div></article>
+          <article class="stat-card"><span class="stat-icon">↗</span><div><small>Evolução média</small><strong id="quizAverageGrowth">0.0</strong><p>Comparação entre ciclos</p></div></article>
+        </div>
+        <div class="quiz-admin-grid">
+          <section class="panel">
+            <div class="panel-head"><div><span class="eyebrow">PRIORIDADES</span><h2>Pontos que mais precisam de treinamento</h2></div></div>
+            <div id="quizCriticalTopics" class="quiz-topic-list"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><span class="eyebrow">BLOCOS</span><h2>Média por área</h2></div></div>
+            <div id="quizSectionAverages" class="quiz-section-bars"></div>
+          </section>
+        </div>
+        <section class="panel quiz-history-panel">
+          <div class="panel-head"><div><span class="eyebrow">EXECUTIVOS</span><h2>Visão individual</h2></div></div>
+          <div id="quizExecutiveCards" class="quiz-exec-grid"></div>
         </section>
       </div>
     </section>
@@ -306,5 +372,6 @@
 <div id="toast" class="toast"></div>
 <script src="portal.js?v=3"></script>
 <script src="portal-modules.js?v=1"></script>
+<script src="portal-quiz.js?v=1"></script>
 </body>
 </html>

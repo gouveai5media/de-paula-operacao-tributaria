@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Diretoria | De Paula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="diretoria.css?v=1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="director-shell">
+  <aside class="sidebar">
+    <div>
+      <div class="brand"><span class="mark">DP</span><div><strong>DE PAULA</strong><small>DIRETORIA COMERCIAL</small></div></div>
+      <div class="side-label">GESTÃO DO ESCRITÓRIO</div>
+      <nav>
+        <button class="nav active" data-view="overview">⌂ <span>Visão geral</span></button>
+        <button class="nav" data-view="teams">◎ <span>Times e líderes</span></button>
+        <button class="nav" data-view="executives">◇ <span>Executivos</span></button>
+        <button class="nav" data-view="quiz">◈ <span>Quiz e conhecimento</span></button>
+      </nav>
+    </div>
+    <div class="side-bottom"><div class="profile-chip"><div class="avatar">D</div><div><strong>Diretoria</strong><small>Super Admin</small></div></div><button id="logout">Sair</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div><span class="overline">DE PAULA • DIRETORIA</span><strong id="pageTitle">Visão geral</strong></div><div class="top-actions"><button id="refresh">↻ Atualizar</button><div class="status-dot">● Sistema conectado</div></div></header>
+
+    <section class="view active" id="view-overview">
+      <div class="hero"><div><span class="eyebrow">PAINEL EXECUTIVO</span><h1>Visão geral do escritório.</h1><p>Acompanhe produção, conversão e conhecimento de todos os times em um único painel.</p></div><button class="primary" data-open="teamModal">+ Novo time</button></div>
+
+      <div class="filters panel"><label>Período<select id="periodFilter"><option value="this_week">Esta semana</option><option value="last_week">Semana passada</option><option value="this_month" selected>Este mês</option><option value="last_month">Mês passado</option><option value="4">Últimas 4 semanas</option><option value="12">Últimas 12 semanas</option><option value="all">Todo o histórico</option><option value="custom">Período personalizado</option></select></label><label>Time<select id="teamFilter"><option value="">Todos os times</option></select></label><div id="customDates" class="custom-dates hidden"><label>De<input id="dateFrom" type="date"></label><label>Até<input id="dateTo" type="date"></label></div></div>
+
+      <div class="stats">
+        <article><small>Times ativos</small><strong id="statTeams">0</strong><span>estrutura comercial</span></article>
+        <article><small>Executivos ativos</small><strong id="statExecs">0</strong><span>no período atual</span></article>
+        <article><small>Reuniões realizadas</small><strong id="statMeetings">0</strong><span>produção consolidada</span></article>
+        <article><small>Minutas enviadas</small><strong id="statMinutes">0</strong><span>avanços comerciais</span></article>
+        <article class="gold"><small>Contratos fechados</small><strong id="statContracts">0</strong><span>resultado do período</span></article>
+      </div>
+
+      <div class="overview-grid">
+        <section class="panel span2"><div class="panel-head"><div><span class="eyebrow">COMPARATIVO</span><h2>Desempenho por time</h2></div><small class="formula">Índice: 40% contratos • 25% minutas • 20% reuniões • 15% agendamentos</small></div><div id="teamPerformance" class="team-performance"></div></section>
+        <section class="panel highlight"><span class="eyebrow">DESTAQUE DO PERÍODO</span><div id="leaderHighlight"></div></section>
+        <section class="panel"><div class="panel-head"><div><span class="eyebrow">TOP EXECUTIVOS</span><h2>Ranking individual</h2></div></div><div id="execRanking" class="ranking"></div></section>
+        <section class="panel"><div class="panel-head"><div><span class="eyebrow">CONHECIMENTO</span><h2>Saúde do time</h2></div></div><div id="quizHealth"></div></section>
+      </div>
+    </section>
+
+    <section class="view" id="view-teams">
+      <div class="page-head"><div><span class="eyebrow">ESTRUTURA</span><h1>Times e líderes</h1><p>Crie novas equipes, gerencie líderes e acompanhe a composição de cada time.</p></div><button class="primary" data-open="teamModal">+ Cadastrar novo time</button></div>
+      <div id="teamsGrid" class="teams-grid"></div>
+    </section>
+
+    <section class="view" id="view-executives">
+      <div class="page-head"><div><span class="eyebrow">PESSOAS</span><h1>Executivos</h1><p>Visão geral de todos os executivos, com time, status e indicadores de produção.</p></div></div>
+      <div class="panel"><div class="table-tools"><input id="execSearch" placeholder="Buscar executivo ou e-mail"><select id="execTeamFilter"><option value="">Todos os times</option></select></div><div id="executivesTable"></div></div>
+    </section>
+
+    <section class="view" id="view-quiz">
+      <div class="page-head"><div><span class="eyebrow">DESENVOLVIMENTO</span><h1>Quiz e conhecimento</h1><p>Veja a evolução técnica e comercial de cada executivo e identifique prioridades de treinamento.</p></div></div>
+      <div class="panel"><div class="table-tools"><select id="quizTeamFilter"><option value="">Todos os times</option></select><select id="quizExecFilter"><option value="">Todos os executivos</option></select></div><div id="quizSummary" class="quiz-summary"></div></div>
+      <div class="quiz-grid"><section class="panel"><span class="eyebrow">PONTOS CRÍTICOS</span><h2>Onde precisamos trabalhar</h2><div id="criticalTopics"></div></section><section class="panel"><span class="eyebrow">EVOLUÇÃO</span><h2>Executivos avaliados</h2><div id="quizPeople"></div></section></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="teamModal"><div class="modal-card"><button class="close" data-close>×</button><span class="eyebrow">NOVO TIME</span><h2>Cadastrar time e líder</h2><form id="teamForm"><label>Nome do time<input id="teamName" required placeholder="Ex.: Time Eduardo"></label><label>Nome do líder<input id="leaderName" required></label><label>E-mail do líder<input id="leaderEmail" type="email" required></label><label>Senha inicial<input id="leaderPassword" type="password" minlength="8" required></label><div class="modal-actions"><button type="button" class="secondary" data-close>Cancelar</button><button class="primary" type="submit">Criar time</button></div></form></div></div>
+
+<div class="modal" id="leaderModal"><div class="modal-card"><button class="close" data-close>×</button><span class="eyebrow">LÍDER</span><h2>Editar líder</h2><form id="leaderForm"><input id="leaderId" type="hidden"><label>Nome<input id="editLeaderName" required></label><label>E-mail<input id="editLeaderEmail" type="email" required></label><label>Nova senha <small>deixe em branco para manter</small><input id="editLeaderPassword" type="password" minlength="8"></label><label class="switch"><input id="editLeaderActive" type="checkbox" checked> Líder ativo</label><div class="modal-actions"><button type="button" class="secondary" data-close>Cancelar</button><button class="primary" type="submit">Salvar alterações</button></div></form></div></div>
+
+<div class="modal" id="executiveModal"><div class="modal-card"><button class="close" data-close>×</button><span class="eyebrow">EXECUTIVO</span><h2>Editar executivo</h2><form id="executiveForm"><input id="editExecId" type="hidden"><label>Nome<input id="editExecName" required></label><label>E-mail<input id="editExecEmail" type="email" required></label><label>Time<select id="editExecTeam" required></select></label><label>Nova senha <small>deixe em branco para manter</small><input id="editExecPassword" type="password" minlength="8"></label><label class="switch"><input id="editExecActive" type="checkbox" checked> Executivo ativo</label><div class="modal-actions"><button type="button" class="secondary" data-close>Cancelar</button><button class="primary" type="submit">Salvar executivo</button></div></form></div></div>
+
+<div id="toast" class="toast"></div>
+<script src="diretoria.js?v=1"></script>
+</body></html>

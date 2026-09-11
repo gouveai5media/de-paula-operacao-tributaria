@@ -1,0 +1,1 @@
+window.DE_PAULA_PROFILE_CONTRACT_UI=true;

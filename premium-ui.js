@@ -79,6 +79,7 @@
     addEventListener('resize',()=>{if(innerWidth>900){sidebar.classList.remove('open');sync()}});
   }
 
-  function init(){themeButton();countdown();premiumIcons();mobileSidebar();if(d.querySelector('.app-shell')&&!d.querySelector('script[src*="ui-senior.js"]')){const s=d.createElement('script');s.src='ui-senior.js?v=1';d.body.appendChild(s)}}
+  function loadExtra(src){if(d.querySelector('script[src*="'+src.split('?')[0]+'"]'))return;const s=d.createElement('script');s.src=src;d.body.appendChild(s)}
+  function init(){themeButton();countdown();premiumIcons();mobileSidebar();if(d.querySelector('.app-shell')){loadExtra('ui-senior.js?v=1');loadExtra('leader-quiz-review.js?v=1')}}
   d.readyState==='loading'?d.addEventListener('DOMContentLoaded',init):init();
 })();

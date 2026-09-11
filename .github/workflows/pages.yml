@@ -21,6 +21,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Apply premium UI layer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          boot = "<script>(function(){try{document.documentElement.dataset.theme=localStorage.getItem('depaula-theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}})();</script>"
+          css = '<link rel="stylesheet" href="premium-ui.css?v=1">'
+          js = '<script src="premium-ui.js?v=1"></script>'
+
+          for filename in ('portal.html', 'diretoria.html'):
+              p = Path(filename)
+              s = p.read_text(encoding='utf-8')
+              if 'depaula-theme' not in s:
+                  s = s.replace('</title>', '</title>\n' + boot, 1)
+              if 'premium-ui.css' not in s:
+                  marker = '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>'
+                  s = s.replace(marker, css + '\n' + marker, 1)
+              if 'premium-ui.js' not in s:
+                  s = s.replace('</body>', js + '\n</body>', 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

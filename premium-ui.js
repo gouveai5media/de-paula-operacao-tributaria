@@ -79,6 +79,6 @@
     addEventListener('resize',()=>{if(innerWidth>900){sidebar.classList.remove('open');sync()}});
   }
 
-  function init(){themeButton();countdown();premiumIcons();mobileSidebar();}
+  function init(){themeButton();countdown();premiumIcons();mobileSidebar();if(d.querySelector('.app-shell')&&!d.querySelector('script[src*="ui-senior.js"]')){const s=d.createElement('script');s.src='ui-senior.js?v=1';d.body.appendChild(s)}}
   d.readyState==='loading'?d.addEventListener('DOMContentLoaded',init):init();
 })();

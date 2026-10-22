@@ -77,7 +77,7 @@
     </section>
 
     <section class="section calculator-section" id="calculadora">
-      <div class="section-head reveal"><span class="eyebrow">SIMULADOR EXECUTIVO</span><h2>Visualize a economia potencial da operação.</h2><p>Informe apenas o valor da apuração mensal. A simulação considera 90% de crédito, 10% de DARF residual e contrato equivalente a 70% do crédito utilizado.</p></div>
+      <div class="section-head reveal"><span class="eyebrow">SIMULADOR EXECUTIVO</span><h2>Visualize a economia potencial da operação.</h2><p>Informe a apuração mensal e ajuste o percentual de desconto. A simulação considera 90% de crédito e 10% de DARF residual.</p></div>
       <div class="calculator calculator-fixed reveal">
         <div class="calc-inputs">
           <div class="calc-kicker">
@@ -93,14 +93,14 @@
 
           <div class="fixed-economy-card">
             <small>ECONOMIA APLICADA</small>
-            <strong>30%</strong>
+            <label class="discount-edit" for="desconto"><input id="desconto" type="number" min="0" max="45" step="0.5" value="30" inputmode="decimal" aria-label="Percentual de desconto"><span>%</span></label>
             <span>Desconto aplicado sobre os 90% de crédito utilizado na operação.</span>
           </div>
 
           <div class="calc-rule-list">
             <div><span>DARF residual</span><strong>10%</strong></div>
             <div><span>Crédito utilizado</span><strong>90%</strong></div>
-            <div><span>Pagamento do crédito</span><strong>70%</strong></div>
+            <div><span>Pagamento do crédito</span><strong id="regraPagamento">70%</strong></div>
           </div>
         </div>
 
@@ -135,7 +135,7 @@
             <div class="savings-divider"></div>
             <span>ECONOMIA ANUAL ESTIMADA</span>
             <strong id="simEconomiaAnual">R$ 324.000,00</strong>
-            <small>Simulação padrão: 10% de DARF residual + 70% de pagamento sobre os 90% de crédito.</small>
+            <small>Simulação estimativa: 10% de DARF residual e desconto ajustável sobre os 90% de crédito.</small>
           </div>
         </div>
       </div>
